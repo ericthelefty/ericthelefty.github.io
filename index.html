@@ -157,6 +157,10 @@
   .bottom .hand { font-size: 1.95rem; }
   .final td { font-size: 1.75rem; }
   @media (max-width: 620px) { .player .hand { font-size: 2.2rem; } }
+  /* hover a square in the scorebook and a ballpark snapshot develops inside it */
+  .ab .snap { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right bottom; opacity: 0; transition: opacity .6s ease; pointer-events: none; z-index: 2; }
+  .ab .snap.show { opacity: 1; transition-duration: .25s; }
+  @media (prefers-reduced-motion: reduce) { .ab .snap, .ab .snap.show { transition: none; } }
 </style>
 </head>
 <body>
@@ -366,6 +370,28 @@
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const v = document.getElementById('hit');
       v.removeAttribute('autoplay'); v.pause(); v.controls = true;
+    }
+  } catch (e) {}
+  // one snapshot per scorebook square; the multiplier walks through the photos so neighbors never repeat
+  try {
+    const photos = ["2012-10-31_112254.webp", "2016-04-20_194147.webp", "2016-07-21_192851.webp", "2017-05-19_200042.webp", "2018-08-12_160617.webp", "2019-04-21_154328.webp", "2019-05-29_185745.webp", "2019-05-29_190227.webp", "2021-04-04_160759.webp", "2021-04-04_160801.webp", "2021-06-18_181025.webp", "2021-08-14_194859.webp", "2021-08-20_184516.webp", "2021-08-20_215059.webp", "2021-09-03_204701.webp", "2021-09-16_153307.webp", "2021-10-01_180446.webp", "2021-10-01_203230.webp", "2021-10-14_175533.webp", "2021-10-14_203554.webp", "2024-03-16_142557.webp", "2024-03-17_131200.webp", "2024-03-17_131204.webp", "2024-03-17_135115.webp", "2024-06-02_135010.webp", "2026-07-18_163429.webp", "2026-07-18_175702.webp", "undated_untitled.webp"];
+    if (window.matchMedia('(hover: hover)').matches) {
+      document.querySelectorAll('.ab').forEach((cell, i) => {
+        const file = 'media/photos/' + photos[(i * 11) % photos.length];
+        let img = null;
+        cell.addEventListener('mouseenter', () => {
+          if (!img) {
+            img = new Image();
+            img.className = 'snap'; img.alt = ''; img.decoding = 'async';
+            img.addEventListener('load', () => { if (cell.matches(':hover')) img.classList.add('show'); });
+            img.src = file;
+            cell.appendChild(img);
+          } else {
+            img.classList.add('show');
+          }
+        });
+        cell.addEventListener('mouseleave', () => { if (img) img.classList.remove('show'); });
+      });
     }
   } catch (e) {}
 </script>
