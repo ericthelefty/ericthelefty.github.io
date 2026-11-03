@@ -110,6 +110,12 @@
   .final td:first-child { width: 1.6rem; font-family: "Montserrat", sans-serif; font-weight: 700; font-size: .85rem; color: var(--line); }
   .final td.red { color: var(--pen); }
   .sig { justify-content: flex-end; font-size: .78rem; color: #4a4a4a; }
+  .highlight { flex-direction: column; align-items: stretch !important; gap: .5rem !important; padding: .7rem .9rem .6rem !important; }
+  .highlight figure { margin: 0; }
+  .highlight video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border: var(--rule) solid var(--line); background: var(--line); filter: grayscale(.15); }
+  .highlight figcaption { display: flex; align-items: baseline; gap: .5rem; margin-top: .45rem; }
+  .highlight figcaption .hand { font-size: 1.5rem !important; }
+  .highlight .sig { align-self: flex-end; }
 
   /* smaller screens: keep the lineup, drop the inning grid, keep one at-bat per row */
   @media (max-width: 1220px) {
@@ -337,7 +343,16 @@
         <tr><td>H</td><td class="red">2</td><td>4</td><td>0</td></tr>
       </table>
     </div>
-    <div class="sig">© 2026 Eric Bourne</div>
+    <div class="highlight">
+      <figure>
+        <video id="hit" autoplay muted loop playsinline preload="metadata" poster="media/eric-hit-poster.webp" width="640" height="360" aria-label="Eric swings and lines a base hit, then runs toward first under the lights.">
+          <source src="media/eric-hit.webm" type="video/webm">
+          <source src="media/eric-hit.mp4" type="video/mp4">
+        </video>
+        <figcaption><span class="label">Highlight:</span> <span class="hand">Base hit, NWIBL</span></figcaption>
+      </figure>
+      <span class="sig">© 2026 Eric Bourne</span>
+    </div>
   </footer>
 </main>
 <script>
@@ -345,6 +360,13 @@
   try {
     const d = new Date();
     document.getElementById('today').textContent = (d.getMonth() + 1) + '/' + d.getDate() + '/' + String(d.getFullYear()).slice(2);
+  } catch (e) {}
+  // respect reduced motion: show the still frame and let people press play themselves
+  try {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const v = document.getElementById('hit');
+      v.removeAttribute('autoplay'); v.pause(); v.controls = true;
+    }
   } catch (e) {}
 </script>
 </body>
