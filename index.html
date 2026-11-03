@@ -1,17 +1,327 @@
-<!-- Reminder: ask more questions! -->
-<html>
-<head></head>
-<body>
-    <p>
-        <a href="goals.html">
-            <img src="http://i.imgur.com/dosK05U.gif">
-        </a>
-    </p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eric the Lefty</title>
+<meta name="description" content="Eric Bourne's lineup of side projects: Oombar, the CSz Portland Rec League site, Improem and Nine From the Crates.">
+<meta property="og:title" content="Eric the Lefty">
+<meta property="og:description" content="Eric Bourne's lineup of side projects.">
+<meta property="og:url" content="https://ericthelefty.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Reenie+Beanie&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='white'/><path d='M32 8 56 32 32 56 8 32Z' fill='%23d6262f' stroke='black' stroke-width='4'/></svg>">
+<style>
+  :root {
+    --paper: #fff;
+    --line: #111;
+    --pencil: #3b3b3f;
+    --pen: #d6262f;
+    --hover: #f3f3ee;
+    --rule: 2px;
+    --hand: "Reenie Beanie", "Comic Sans MS", cursive;
+  }
+  * { box-sizing: border-box; }
+  html { background: #e9e9e4; }
+  body { margin: 0; font-family: "Montserrat", system-ui, sans-serif; color: var(--line); padding: clamp(0rem, 2.5vw, 2rem); }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--pen); outline-offset: 2px; }
 
-    <p>
-        <a href="worries.html">
-            <img src="http://i.imgur.com/2s0HwpM.gif">
-        </a>
-    </p>
+  .card { max-width: 1240px; margin: 0 auto; background: var(--paper); border: 3px solid var(--line); box-shadow: 0 2px 0 rgba(0,0,0,.08), 0 18px 40px rgba(0,0,0,.12); }
+
+  /* every box on the card is a cell with a hairline-to-heavy rule, like the printed form */
+  .hand { font-family: var(--hand); color: var(--pencil); font-weight: 400; }
+  .label { font-size: .72rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; line-height: 1.15; }
+
+  /* header strip */
+  .top { display: grid; grid-template-columns: 1.6fr 1.5fr .8fr 1.2fr .9fr 1.15fr; border-bottom: 4px solid var(--line); }
+  .top > div { padding: .55rem .7rem .6rem; border-left: var(--rule) solid var(--line); min-height: 6.2rem; display: flex; flex-direction: column; justify-content: space-between; gap: .3rem; }
+  .top > div:first-child { border-left: 0; }
+  .top .hand { font-size: clamp(1.25rem, 2vw, 1.6rem); line-height: 1.05; }
+  .home-team { justify-content: flex-end !important; }
+  .home-team h1 { margin: 0; display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; font-size: 1.35rem; font-weight: 700; text-transform: uppercase; }
+  .home-team h1 .hand { font-size: clamp(2.2rem, 4.2vw, 3.3rem); text-transform: none; color: var(--line); line-height: .9; }
+  .split { justify-content: flex-start !important; }
+  .split p { margin: 0; display: flex; gap: .45rem; align-items: baseline; }
+  .split p + p { margin-top: auto; }
+  .visitor-links { background: var(--paper); }
+  .visitor-links a { font-family: var(--hand); color: var(--pen); font-size: 1.45rem; line-height: 1.05; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .visitor-links a:hover { color: var(--line); }
+
+  /* the lineup grid */
+  .grid { --innings: repeat(5, minmax(6.4rem, 1fr)); display: grid; grid-template-columns: 3.4rem minmax(15rem, 2.4fr) 4.2rem var(--innings) repeat(4, 3.1rem); }
+  .head { display: contents; }
+  .head > div { border-left: var(--rule) solid var(--line); border-bottom: 4px solid var(--line); padding: .4rem .3rem; text-align: center; font-weight: 600; font-size: .95rem; }
+  .head > div:first-child { border-left: 0; }
+  .head .num { font-weight: 700; font-size: 1.15rem; }
+  .head .inning { font-size: 1rem; }
+  .head .first-total, .row .first-total { border-left-width: 4px; }
+
+  .row { display: contents; }
+  .row > * { border-left: var(--rule) solid var(--line); border-bottom: var(--rule) solid var(--line); min-height: 7.4rem; }
+  .row > *:first-child { border-left: 0; }
+  .spot { display: grid; place-items: center; font-weight: 700; font-size: 1.25rem; border-right: 0; }
+  .num-col { display: none; }
+
+  .player { position: relative; }
+    .player a { display: flex; flex-direction: column; justify-content: center; height: 100%; padding: .6rem .8rem; text-decoration: none; }
+  .player .hand { font-size: clamp(1.7rem, 2.6vw, 2.25rem); color: var(--line); line-height: 1; }
+  .player small { font-size: .78rem; font-weight: 500; color: #4a4a4a; margin-top: .3rem; max-width: 32ch; line-height: 1.3; }
+
+  .pos { display: grid; grid-template-rows: repeat(3, 1fr); }
+  .pos > span { border-bottom: 1px solid #9a9a9a; display: grid; place-items: center; }
+  .pos > span:last-child { border-bottom: 0; }
+  .pos .hand { font-size: 1.3rem; }
+
+  .ab { position: relative; padding: .45rem .5rem; }
+  .ab svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .ab .base { fill: none; stroke: var(--line); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+  .ab .count { fill: none; stroke: var(--line); stroke-width: 1.3; vector-effect: non-scaling-stroke; }
+  .ab .count.ball { fill: var(--pencil); }
+  .ab .path { fill: none; stroke: var(--pen); stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+  .ab .run { fill: var(--pen); fill-opacity: .9; stroke: none; }
+  .ab .note { position: absolute; left: .55rem; bottom: .25rem; font-family: var(--hand); color: var(--pen); font-size: 1.55rem; line-height: 1; }
+
+  .tot { display: grid; grid-template-rows: repeat(3, 1fr); }
+  .tot > span { border-bottom: 1px solid #9a9a9a; display: grid; place-items: center; }
+  .tot > span:last-child { border-bottom: 0; }
+  .tot .hand { font-size: 1.45rem; }
+  .tot .hand.red { color: var(--pen); }
+
+  /* the at-bat path is redrawn when you hover a row, like a scorer tracing the play */
+  .row:hover > *, .row:focus-within > * { background: var(--hover); }
+  .row .path { stroke-dasharray: 400; stroke-dashoffset: 0; }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .row:hover .path, .row:focus-within .path { animation: trace .9s ease-out; }
+  }
+  @keyframes trace { from { stroke-dashoffset: 400; } to { stroke-dashoffset: 0; } }
+
+  /* bottom strip */
+  .bottom { display: grid; grid-template-columns: 1.1fr 1fr 1.6fr 1.5fr; border-top: 4px solid var(--line); }
+  .bottom > div { border-left: var(--rule) solid var(--line); padding: .7rem .9rem; display: flex; align-items: center; gap: 1rem; min-height: 5.2rem; }
+  .bottom > div:first-child { border-left: 0; }
+  .bottom .big { font-size: 1.35rem; font-weight: 600; line-height: 1.15; }
+  .bottom .hand { font-size: 1.5rem; }
+  .final { justify-content: space-between; }
+  .final table { border-collapse: collapse; font-size: .8rem; }
+  .final th { font-weight: 700; padding: 0 .55rem .1rem; }
+  .final td { border: var(--rule) solid var(--line); width: 2.6rem; height: 1.9rem; text-align: center; font-family: var(--hand); font-size: 1.35rem; color: var(--pencil); padding: 0; }
+  .final td:first-child { width: 1.6rem; font-family: "Montserrat", sans-serif; font-weight: 700; font-size: .85rem; color: var(--line); }
+  .final td.red { color: var(--pen); }
+  .sig { justify-content: flex-end; font-size: .78rem; color: #4a4a4a; }
+
+  /* smaller screens: keep the lineup, drop the inning grid, keep one at-bat per row */
+  @media (max-width: 1100px) {
+    .top { grid-template-columns: 1fr 1fr 1fr; }
+    .top > div:nth-child(4) { border-left: 0; }
+    .top > div:nth-child(-n+3) { border-bottom: var(--rule) solid var(--line); }
+    .grid { grid-template-columns: 3rem minmax(0, 1fr) 4rem 7rem 3rem 3rem; }
+    .inning.extra, .ab.extra, .tot.ab-col, .tot.rbi-col, .head .ab-col, .head .rbi-col { display: none; }
+    .bottom { grid-template-columns: 1fr 1fr; }
+    .bottom > div:nth-child(3) { border-left: 0; }
+    .bottom > div:nth-child(-n+2) { border-bottom: var(--rule) solid var(--line); }
+  }
+  @media (max-width: 620px) {
+    body { padding: 0; }
+    .card { border-width: 0; box-shadow: none; }
+    .top { grid-template-columns: 1fr 1fr; }
+    .top > div { border-left: var(--rule) solid var(--line) !important; border-bottom: var(--rule) solid var(--line); min-height: 4.6rem; }
+    .top > div:nth-child(odd) { border-left: 0 !important; }
+    .top .home-team, .top .visitor-links { grid-column: 1 / -1; border-left: 0 !important; }
+    .grid { grid-template-columns: 2.4rem minmax(0, 1fr) 5.6rem; }
+    .pos, .tot, .head .pos-h, .head .tot-h, .head .inning.extra, .ab.extra { display: none !important; }
+    .row > * { min-height: 6rem; }
+    .player .hand { font-size: 1.75rem; }
+    .bottom { grid-template-columns: 1fr; }
+    .bottom > div { border-left: 0 !important; border-bottom: var(--rule) solid var(--line); }
+    .bottom .final { flex-wrap: wrap; }
+  }
+  /* Reenie Beanie runs small and light, so the handwriting gets bumped up and darkened a touch */
+  .hand, .visitor-links a { text-transform: uppercase; letter-spacing: .03em; -webkit-text-stroke: .35px currentColor; }
+  .home-team h1 .hand { text-transform: uppercase; }
+  .top .hand { font-size: clamp(1.3rem, 1.95vw, 1.7rem); }
+  .visitor-links a { font-size: 1.6rem !important; }
+  .home-team h1 .hand { font-size: clamp(2.6rem, 3.6vw, 3.4rem); white-space: nowrap; }
+  .visitor-links a { font-size: 1.85rem; }
+  .player .hand { font-size: clamp(2.1rem, 3vw, 2.6rem); line-height: .95; }
+  .pos .hand { font-size: 1.7rem; }
+  .ab .note { font-size: 2rem; }
+  .tot .hand { font-size: 1.9rem; }
+  .bottom .hand { font-size: 1.95rem; }
+  .final td { font-size: 1.75rem; }
+  @media (max-width: 620px) { .player .hand { font-size: 2.2rem; } }
+</style>
+</head>
+<body>
+<main class="card">
+
+  <header class="top">
+    <div class="home-team">
+      <h1><span>Home team:</span> <span class="hand">Eric Bourne</span></h1>
+    </div>
+    <div class="split">
+      <p><span class="label">Home:</span> <span class="hand">ericthelefty.com</span></p>
+      <p><span class="label">Visitor:</span> <span class="hand">you</span></p>
+    </div>
+    <div>
+      <span class="label">Date:</span>
+      <span class="hand" id="today">today</span>
+    </div>
+    <div>
+      <span class="label">Location:</span>
+      <span class="hand">Portland, OR</span>
+    </div>
+    <div>
+      <span class="label">Bats:</span>
+      <span class="hand">Left. 1B.</span>
+    </div>
+    <div class="visitor-links">
+      <span class="label">Click link for visitor's scorecard</span>
+      <span><a href="https://www.linkedin.com/in/ebourne">LinkedIn</a> &nbsp; <a href="https://github.com/ericthelefty">GitHub</a></span>
+    </div>
+  </header>
+
+  <!-- shared SVG pieces for the at-bat boxes -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <g id="counts">
+        <g fill="none" stroke="#111" stroke-width="1.3">
+          <circle cx="12" cy="10" r="5"/><circle cx="24" cy="10" r="5"/><circle cx="36" cy="10" r="5"/>
+          <circle cx="12" cy="22" r="5"/><circle cx="24" cy="22" r="5"/>
+        </g>
+      </g>
+      <path id="diamond" fill="none" stroke="#111" stroke-width="1.6" d="M66 38 L90 62 L66 86 L42 62 Z"/>
+    </defs>
+  </svg>
+
+  <section class="grid" aria-label="Today's lineup of projects">
+    <div class="head" aria-hidden="true">
+      <div class="num">#</div>
+      <div>Project</div>
+      <div class="pos-h">Pos.</div>
+      <div class="inning first-inning">1</div>
+      <div class="inning extra">2</div>
+      <div class="inning extra">3</div>
+      <div class="inning extra">4</div>
+      <div class="inning extra">5</div>
+      <div class="tot-h first-total ab-col">AB</div>
+      <div class="tot-h">R</div>
+      <div class="tot-h">H</div>
+      <div class="tot-h rbi-col">RBI</div>
+    </div>
+
+    <!-- 1: Oombar, a home run -->
+    <div class="row">
+      <div class="spot">1</div>
+      <div class="player">
+        <a href="https://oombar.com"><span class="hand">Oombar</span><small>Find a sports bar showing your out-of-market team. Portland and Salt Lake City.</small></a>
+      </div>
+      <div class="pos"><span><span class="hand">APP</span></span><span></span><span></span></div>
+      <div class="ab" aria-hidden="true"><svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet"><use href="#counts"/><path class="run" d="M66 38 L90 62 L66 86 L42 62 Z"/><use href="#diamond"/><path class="path" d="M66 86 L90 62 L66 38 L42 62 L66 86"/></svg><span class="note">HR</span></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="tot first-total ab-col"><span><span class="hand">1</span></span><span></span><span></span></div>
+      <div class="tot"><span><span class="hand red">1</span></span><span></span><span></span></div>
+      <div class="tot"><span><span class="hand">1</span></span><span></span><span></span></div>
+      <div class="tot rbi-col"><span><span class="hand">1</span></span><span></span><span></span></div>
+    </div>
+
+    <!-- 2: Rec League, a home run -->
+    <div class="row">
+      <div class="spot">2</div>
+      <div class="player">
+        <a href="https://rec.ericthelefty.com"><span class="hand">Rec League</span><small>An unofficial home for the CSz Portland Rec League: games, news and shows.</small></a>
+      </div>
+      <div class="pos"><span><span class="hand">SITE</span></span><span></span><span></span></div>
+      <div class="ab" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><circle class="count ball" cx="12" cy="10" r="5"/><path class="run" d="M66 38 L90 62 L66 86 L42 62 Z"/><use href="#diamond"/><path class="path" d="M66 86 L90 62 L66 38 L42 62 L66 86"/></svg><span class="note">HR</span></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="tot first-total ab-col"><span><span class="hand">1</span></span><span></span><span></span></div>
+      <div class="tot"><span><span class="hand red">1</span></span><span></span><span></span></div>
+      <div class="tot"><span><span class="hand">1</span></span><span></span><span></span></div>
+      <div class="tot rbi-col"><span><span class="hand">1</span></span><span></span><span></span></div>
+    </div>
+
+    <!-- 3: Improem, a triple -->
+    <div class="row">
+      <div class="spot">3</div>
+      <div class="player">
+        <a href="https://improem.ericthelefty.com"><span class="hand">Improem</span><small>A zine of handwritten, dated poems.</small></a>
+      </div>
+      <div class="pos"><span><span class="hand">ZINE</span></span><span></span><span></span></div>
+      <div class="ab" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><circle class="count ball" cx="12" cy="10" r="5"/><circle class="count ball" cx="24" cy="10" r="5"/><use href="#diamond"/><path class="path" d="M66 86 L90 62 L66 38 L42 62"/></svg><span class="note">3B</span></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="tot first-total ab-col"><span><span class="hand">1</span></span><span></span><span></span></div>
+      <div class="tot"><span></span><span></span><span></span></div>
+      <div class="tot"><span><span class="hand">1</span></span><span></span><span></span></div>
+      <div class="tot rbi-col"><span></span><span></span><span></span></div>
+    </div>
+
+    <!-- 4: Nine From the Crates, a single -->
+    <div class="row">
+      <div class="spot">4</div>
+      <div class="player">
+        <a href="https://claude.ai/artifact/2zFZzJrauq6gHFr15L1zQ2"><span class="hand">Nine From the Crates</span><small>Nine random records pulled from my vinyl collection.</small></a>
+      </div>
+      <div class="pos"><span><span class="hand">APP</span></span><span></span><span></span></div>
+      <div class="ab" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><circle class="count ball" cx="12" cy="22" r="5"/><use href="#diamond"/><path class="path" d="M66 86 L90 62"/></svg><span class="note">1B</span></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="tot first-total ab-col"><span><span class="hand">1</span></span><span></span><span></span></div>
+      <div class="tot"><span></span><span></span><span></span></div>
+      <div class="tot"><span><span class="hand">1</span></span><span></span><span></span></div>
+      <div class="tot rbi-col"><span></span><span></span><span></span></div>
+    </div>
+
+    <!-- 5: the empty spot -->
+    <div class="row">
+      <div class="spot">5</div>
+      <div class="player">
+        <div style="display:flex;align-items:center;height:100%;padding:.4rem .8rem"><span class="hand" style="font-size:2.1rem;color:#8a8a8a">On deck…</span></div>
+      </div>
+      <div class="pos"><span></span><span></span><span></span></div>
+      <div class="ab" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="tot first-total ab-col"><span></span><span></span><span></span></div>
+      <div class="tot"><span></span><span></span><span></span></div>
+      <div class="tot"><span></span><span></span><span></span></div>
+      <div class="tot rbi-col"><span></span><span></span><span></span></div>
+    </div>
+  </section>
+
+  <footer class="bottom">
+    <div><span class="big">Official<br>scorer</span><span class="hand">Eric</span></div>
+    <div><span class="big">Post game<br>notes</span><span class="hand">More coming.</span></div>
+    <div class="final">
+      <span class="big">Final score</span>
+      <table aria-label="Final score: home 2 runs, 4 hits, 0 errors">
+        <tr><th></th><th>R</th><th>H</th><th>E</th></tr>
+        <tr><td>V</td><td></td><td></td><td></td></tr>
+        <tr><td>H</td><td class="red">2</td><td>4</td><td>0</td></tr>
+      </table>
+    </div>
+    <div class="sig">© 2026 Eric Bourne</div>
+  </footer>
+</main>
+<script>
+  // the date box is filled in "by hand" with today's date, the way you'd score a live game
+  try {
+    const d = new Date();
+    document.getElementById('today').textContent = (d.getMonth() + 1) + '/' + d.getDate() + '/' + String(d.getFullYear()).slice(2);
+  } catch (e) {}
+</script>
 </body>
 </html>
