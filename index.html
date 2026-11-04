@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Eric the Lefty</title>
-<meta name="description" content="Eric Bourne's lineup of side projects: Oombar, the CSz Portland Rec League site, Improem and Nine From the Crates.">
-<meta property="og:title" content="Eric the Lefty">
+<title>ericthelefty</title>
+<meta name="description" content="Eric Bourne's lineup of side projects: Oombar, the CSz Portland Rec League site, Improem, Nine From the Crates and LaughGraphs.">
+<meta property="og:title" content="ericthelefty">
 <meta property="og:description" content="Eric Bourne's lineup of side projects.">
 <meta property="og:url" content="https://ericthelefty.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -151,7 +151,7 @@
   .home-team h1 .hand { font-size: clamp(2.6rem, 3.6vw, 3.4rem); white-space: nowrap; }
   .visitor-links a { font-size: 1.85rem; }
   .player .hand { font-size: clamp(2.1rem, 3vw, 2.6rem); line-height: .95; }
-  .pos .hand { font-size: 1.7rem; }
+  .pos .hand { font-size: 1.45rem; letter-spacing: 0; }
   .ab .note { font-size: 2rem; }
   .tot .hand { font-size: 1.9rem; }
   .bottom .hand { font-size: 1.95rem; }
@@ -313,14 +313,14 @@
       <div class="tot rbi-col"><span></span><span></span><span></span></div>
     </div>
 
-    <!-- 5: the empty spot -->
+    <!-- 5: LaughGraphs, a double -->
     <div class="row">
       <div class="spot">5</div>
       <div class="player">
-        <div style="display:flex;align-items:center;height:100%;padding:.4rem .8rem"><span class="hand" style="font-size:2.1rem;color:#8a8a8a">On deck…</span></div>
+        <a href="https://laughgraphs.ericthelefty.com"><span class="hand">LaughGraphs</span><small>Wins, points and leaderboards for CSz Portland's ComedySportz matches.</small></a>
       </div>
-      <div class="pos"><span></span><span></span><span></span></div>
-      <div class="ab" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
+      <div class="pos"><span><span class="hand">STATS</span></span><span></span><span></span></div>
+      <div class="ab" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><circle class="count ball" cx="12" cy="10" r="5"/><circle class="count ball" cx="12" cy="22" r="5"/><use href="#diamond"/><path class="path" d="M66 86 L90 62 L66 38"/></svg><span class="note">2B</span></div>
       <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
       <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
       <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
@@ -329,9 +329,9 @@
       <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
       <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
       <div class="ab extra" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#counts"/><use href="#diamond"/></svg></div>
-      <div class="tot first-total ab-col"><span></span><span></span><span></span></div>
+      <div class="tot first-total ab-col"><span><span class="hand">1</span></span><span></span><span></span></div>
       <div class="tot"><span></span><span></span><span></span></div>
-      <div class="tot"><span></span><span></span><span></span></div>
+      <div class="tot"><span><span class="hand">1</span></span><span></span><span></span></div>
       <div class="tot rbi-col"><span></span><span></span><span></span></div>
     </div>
   </section>
@@ -341,10 +341,10 @@
     <div><span class="big">Post game<br>notes</span><span class="hand">More coming.</span></div>
     <div class="final">
       <span class="big">Final score</span>
-      <table aria-label="Final score: home 2 runs, 4 hits, 0 errors">
+      <table aria-label="Final score: home 2 runs, 5 hits, 0 errors">
         <tr><th></th><th>R</th><th>H</th><th>E</th></tr>
         <tr><td>V</td><td></td><td></td><td></td></tr>
-        <tr><td>H</td><td class="red">2</td><td>4</td><td>0</td></tr>
+        <tr><td>H</td><td class="red">2</td><td>5</td><td>0</td></tr>
       </table>
     </div>
     <div class="highlight">
