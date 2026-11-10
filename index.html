@@ -161,6 +161,12 @@
   .ab .snap { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right bottom; opacity: 0; transition: opacity .6s ease; pointer-events: none; z-index: 2; }
   .ab .snap.show { opacity: 1; transition-duration: .25s; }
   @media (prefers-reduced-motion: reduce) { .ab .snap, .ab .snap.show { transition: none; } }
+  /* the email, cut out of magazines like a ransom note */
+  .contact { max-width: 900px; margin: clamp(2rem, 5vw, 3.5rem) auto clamp(1rem, 3vw, 2rem); padding: 0 1rem; }
+  .contact a { display: block; transition: transform .2s ease; }
+  .contact a:hover { transform: rotate(-1deg) scale(1.02); }
+  .contact img { display: block; width: 100%; height: auto; }
+  @media (prefers-reduced-motion: reduce) { .contact a, .contact a:hover { transition: none; transform: none; } }
 </style>
 </head>
 <body>
@@ -359,6 +365,9 @@
     </div>
   </footer>
 </main>
+<footer class="contact">
+  <a href="mailto:ericbourne@gmail.com"><img src="media/email-cutout.webp" width="1600" height="230" alt="ericbourne@gmail.com" loading="lazy"></a>
+</footer>
 <script>
   // the date box is filled in "by hand" with today's date, the way you'd score a live game
   try {
