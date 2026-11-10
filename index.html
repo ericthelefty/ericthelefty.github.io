@@ -165,7 +165,13 @@
   .contact { max-width: 900px; margin: clamp(2rem, 5vw, 3.5rem) auto clamp(1rem, 3vw, 2rem); padding: 0 1rem; }
   .contact a { display: block; transition: transform .2s ease; }
   .contact a:hover { transform: rotate(-1deg) scale(1.02); }
+  .contact a { position: relative; }
   .contact img { display: block; width: 100%; height: auto; }
+  /* a second cut-out version swaps in while the pointer is over it */
+  .contact .cut-b { position: absolute; inset: 0; height: 100%; object-fit: contain; opacity: 0; transition: opacity .12s; }
+  .contact .cut-a { transition: opacity .12s; }
+  .contact a:hover .cut-b, .contact a:focus-visible .cut-b { opacity: 1; }
+  .contact a:hover .cut-a, .contact a:focus-visible .cut-a { opacity: 0; }
   @media (prefers-reduced-motion: reduce) { .contact a, .contact a:hover { transition: none; transform: none; } }
 </style>
 </head>
@@ -366,7 +372,10 @@
   </footer>
 </main>
 <footer class="contact">
-  <a href="mailto:ericbourne@gmail.com"><img src="media/email-cutout.webp" width="1600" height="230" alt="ericbourne@gmail.com" loading="lazy"></a>
+  <a href="mailto:ericbourne@gmail.com">
+    <img class="cut-a" src="media/email-cutout.webp" width="1600" height="230" alt="ericbourne@gmail.com">
+    <img class="cut-b" src="media/email-cutout-2.webp" width="1600" height="257" alt="" aria-hidden="true">
+  </a>
 </footer>
 <script>
   // the date box is filled in "by hand" with today's date, the way you'd score a live game
